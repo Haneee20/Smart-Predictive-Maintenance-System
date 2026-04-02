@@ -28,3 +28,6 @@ def predict(temperature, vibration, pressure):
     input_data = [[temperature, vibration, pressure]]
     result = model.predict(input_data)
     return result[0]
+
+print(predict(90, 4, 45))
+

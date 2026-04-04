@@ -11,3 +11,24 @@ data = {
 df = pd.DataFrame(data)
 
 print(df)
+
+# Graph 1
+plt.scatter(df['temperature'], df['failure'])
+plt.xlabel("Temperature")
+plt.ylabel("Failure")
+plt.title("Temperature vs Failure")
+plt.show()
+
+# Graph 2
+plt.scatter(df['vibration'], df['failure'])
+plt.xlabel("Vibration")
+plt.ylabel("Failure")
+plt.title("Vibration vs Failure")
+plt.show()
+
+# Graph 3
+plt.scatter(df['pressure'], df['failure'])
+plt.xlabel("Pressure")
+plt.ylabel("Failure")
+plt.title("Pressure vs Failure")
+plt.show()

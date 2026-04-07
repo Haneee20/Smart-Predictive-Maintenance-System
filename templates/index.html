@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="refresh" content="3">
+    <title>Smart Predictive Maintenance</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<h1>⚙ Smart Predictive Maintenance Dashboard</h1>
+
+<h3 style="color:lightblue;">System Status: Monitoring in Real-Time...</h3>
+
+<!-- 🔥 SENSOR CARDS -->
+<div>
+    <div class="card">
+        <h3>🌡 Temperature</h3>
+        <p>{{ auto_temp }}</p>
+    </div>
+
+    <div class="card">
+        <h3>📳 Vibration</h3>
+        <p>{{ auto_vib }}</p>
+    </div>
+
+    <div class="card">
+        <h3>⚙ Pressure</h3>
+        <p>{{ auto_pres }}</p>
+    </div>
+
+    <div class="card">
+        <h3>⏱ Usage</h3>
+        <p>{{ auto_hours }}</p>
+    </div>
+</div>
+
+<!-- 🔥 RESULT -->
+{% if result %}
+    <h2 class="{{ 'risk' if 'Risk' in result else 'safe' }}">
+        {{ result }}
+    </h2>
+{% endif %}
+
+<!-- 🔥 REASON -->
+{% if reason %}
+    <p><b>Reason:</b> {{ reason }}</p>
+{% endif %}
+
+<!-- 🔥 ALERT -->
+{% if alert %}
+    <div class="alert">{{ alert }}</div>
+{% endif %}
+
+<!-- 🔥 GRAPH -->
+{% if graph %}
+    <h3>📊 Sensor Graph</h3>
+    <img src="{{ graph }}" width="500">
+{% endif %}
+
+</body>
+</html>

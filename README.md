@@ -136,7 +136,7 @@ This project can be deployed using cloud platforms like:
 
 ## 👨‍💻 Author
 
-Developed by Haneefa Nadeem Ahmad
+Developed by Haneefa Nadeem Ahmad,
 Aspiring Software Engineer 🚀
 
 ---

@@ -3,75 +3,108 @@
 <head>
     <title>Smart Predictive Maintenance</title>
     <link rel="stylesheet" href="/static/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-<body>
 
+<body>
 <div class="container">
 
-    <h1>⚙ Predictive Maintenance Dashboard</h1>
-    <h3 id="statusText">🟢 System Healthy</h3>
+<h1>⚙ Smart Predictive Maintenance</h1>
 
-    <div class="panel">
-    <h2>Enter Sensor Data</h2>
+<form method="POST" class="panel">
 
-    <form method="POST">
+<h2>Enter Sensor Values</h2>
 
-        <div class="slider-box">
-            <label>🌡 Temperature: <span id="temp_val">50</span></label>
-            <input type="range" name="temperature" min="20" max="100" step="1" value="50"
-                   oninput="temp_val.innerText = this.value">
-        </div>
-
-        <div class="slider-box">
-            <label>📳 Vibration: <span id="vib_val">0.5</span></label>
-            <input type="range" name="vibration" min="0" max="1" step="0.1" value="0.5"
-                   oninput="vib_val.innerText = this.value">
-        </div>
-
-        <div class="slider-box">
-            <label>⚙ Pressure: <span id="pres_val">1.5</span></label>
-            <input type="range" name="pressure" min="1" max="3" step="0.1" value="1.5"
-                   oninput="pres_val.innerText = this.value">
-        </div>
-
-        <div class="slider-box">
-            <label>⏱ Usage: <span id="use_val">300</span></label>
-            <input type="range" name="usage" min="0" max="600" step="10" value="300"
-                   oninput="use_val.innerText = this.value">
-        </div>
-
-        <button type="submit">🚀 Predict</button>
-    </form>
+<div class="slider-group">
+<label>🌡 Temperature: <span id="tval">50</span></label>
+<input type="range" name="temperature" min="0" max="100" value="50" oninput="tval.innerText=this.value">
 </div>
-   
 
-    {% if result %}
-    <div class="panel">
-        <h2 class="{{ 'risk' if 'Risk' in result else 'safe' }}">{{ result }}</h2>
+<div class="slider-group">
+<label>📳 Vibration: <span id="vval">0.5</span></label>
+<input type="range" step="0.1" name="vibration" min="0" max="5" value="0.5" oninput="vval.innerText=this.value">
+</div>
 
-        <p><b>Reason:</b> {{ reason }}</p>
+<div class="slider-group">
+<label>⚙ Pressure: <span id="pval">1.5</span></label>
+<input type="range" step="0.1" name="pressure" min="0" max="5" value="1.5" oninput="pval.innerText=this.value">
+</div>
 
-        {% if alert %}
-            <div class="alert">{{ alert }}</div>
-        {% endif %}
-    </div>
-    {% endif %}
+<div class="slider-group">
+<label>⏱ Usage: <span id="hval">300</span></label>
+<input type="range" name="usage" min="0" max="1000" value="300" oninput="hval.innerText=this.value">
+</div>
 
-    {% if graph %}
-    <div class="panel">
-        <h3>📊 Sensor Graph</h3>
-        <img src="{{ graph }}">
-    </div>
-    {% endif %}
+<button type="submit">🚀 Predict</button>
+
+</form>
+
+<!-- RESULT -->
+{% if result %}
+<div class="panel">
+
+<h2>{{ result }}</h2>
+
+<p><b>Reason:</b> {{ reason }}</p>
+<p><b>Solution:</b> {{ solution }}</p>
+
+{% if alert %}
+<p class="alert">{{ alert }}</p>
+<audio autoplay src="/static/alert.mp3"></audio>
+{% endif %}
+
+<h3>Failure Probability: {{ probability }}%</h3>
+
+<canvas id="gaugeChart"></canvas>
+
+{% if graph %}
+<h3>📊 Sensor Graph</h3>
+<img src="{{ graph }}">
+{% endif %}
 
 </div>
 
 <script>
-    let result = "{{ result }}";
-    if (result.includes("Risk")) {
-        document.getElementById("statusText").innerText = "🔴 High Risk Detected";
+const risk = {{ probability }};
+new Chart(document.getElementById("gaugeChart"), {
+    type: "doughnut",
+    data: {
+        datasets: [{
+            data: [risk, 100-risk],
+            backgroundColor: ["red", "green"]
+        }]
+    },
+    options: {
+        circumference: 180,
+        rotation: 270,
+        cutout: "70%"
     }
+});
 </script>
 
+{% endif %}
+
+<!-- HISTORY -->
+{% if history %}
+<div class="panel">
+<h3>📜 History</h3>
+<table>
+<tr><th>Temp</th><th>Vib</th><th>Pressure</th><th>Hours</th><th>Status</th></tr>
+
+{% for item in history %}
+<tr>
+<td>{{ item.temp }}</td>
+<td>{{ item.vib }}</td>
+<td>{{ item.pres }}</td>
+<td>{{ item.hours }}</td>
+<td>{{ item.result }}</td>
+</tr>
+{% endfor %}
+
+</table>
+</div>
+{% endif %}
+
+</div>
 </body>
 </html>

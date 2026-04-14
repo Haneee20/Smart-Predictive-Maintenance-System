@@ -1,6 +1,6 @@
 body {
-    font-family: 'Segoe UI', sans-serif;
-    background: #0f172a;
+    font-family: 'Segoe UI';
+    background: linear-gradient(135deg, #0f172a, #1e3a8a);
     color: white;
     margin: 0;
 }
@@ -11,115 +11,55 @@ body {
     text-align: center;
 }
 
-h1 {
-    margin: 20px;
-    font-size: 32px;
-    color: #38bdf8;
-}
-
 .panel {
     background: #1e293b;
-    padding: 20px;
+    padding: 25px;
     margin: 20px auto;
     border-radius: 15px;
     width: 60%;
-    box-shadow: 0 0 10px rgba(0,0,0,0.5);
-    animation: fadeIn 0.6s ease-in-out;
+    box-shadow: 0 0 20px rgba(37,99,235,0.5);
 }
 
-input {
-    margin: 10px;
-    width: 60%;
+.slider-group {
+    margin: 20px;
+    text-align: left;
+}
+
+input[type=range] {
+    width: 100%;
 }
 
 button {
-    padding: 10px 20px;
+    padding: 12px 25px;
     background: #2563eb;
-    color: white;
     border: none;
-    border-radius: 8px;
+    border-radius: 10px;
+    color: white;
     cursor: pointer;
-    font-size: 16px;
-    transition: 0.3s;
 }
 
 button:hover {
     background: #1d4ed8;
-    transform: scale(1.1);
-}
-
-.safe {
-    color: #22c55e;
-}
-
-.risk {
-    color: #ef4444;
+    transform: scale(1.05);
 }
 
 .alert {
     color: red;
-    margin-top: 10px;
+}
+
+table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+}
+
+td, th {
+    padding: 10px;
+    border-bottom: 1px solid #555;
 }
 
 img {
     width: 80%;
+    margin-top: 10px;
     border-radius: 10px;
-}
-
-.panel:hover {
-    transform: scale(1.02);
-    transition: 0.3s;
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-/* Slider container */
-.slider-box {
-    margin: 20px 0;
-    text-align: left;
-}
-
-/* Label */
-.slider-box label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-}
-
-/* Slider styling */
-input[type="range"] {
-    width: 100%;
-    height: 6px;
-    background: #334155;
-    border-radius: 5px;
-    outline: none;
-}
-
-/* Slider thumb */
-input[type="range"]::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    width: 15px;
-    height: 15px;
-    background: #38bdf8;
-    border-radius: 50%;
-    cursor: pointer;
-}
-
-input[type="range"]::-moz-range-thumb {
-    width: 15px;
-    height: 15px;
-    background: #38bdf8;
-    border-radius: 50%;
-    cursor: pointer;
-}
-input[type="range"]::-webkit-slider-thumb:hover {
-    background: #0ea5e9;
 }

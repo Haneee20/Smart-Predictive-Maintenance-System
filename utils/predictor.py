@@ -1,26 +1,39 @@
-import pickle
-import numpy as np
-
-with open("model.pkl", "rb") as f:
-    model = pickle.load(f)
-
 def predict_failure(temp, vib, pres, hours):
-    data = np.array([[temp, vib, pres, hours]])
-    result = model.predict(data)[0]
+    score = (temp * 0.3 + vib * 20 + pres * 15 + hours * 0.01)
 
-    reason = ""
-    if vib > 0.7:
-        reason += "High Vibration detected. "
-    if temp > 50:
-        reason += "High Temperature detected. "
-    if hours > 400:
-        reason += "Machine overused. "
+    probability = min(score, 100)
 
-    if result == 1:
-        status = "⚠️ High Risk of Failure"
-        alert = "🚨 ALERT: Immediate Maintenance Required!"
+    if probability > 70:
+        result = "⚠️ High Risk of Failure"
+        alert = "🚨 Immediate Maintenance Required!"
+    elif probability > 40:
+        result = "⚠️ Moderate Risk"
+        alert = "⚠️ Check machine condition"
     else:
-        status = "✅ Machine is Safe"
-        alert = ""
+        result = "✅ Machine is Safe"
+        alert = None
 
-    return status, reason, alert
+    # Reason
+    reason = []
+    if temp > 80:
+        reason.append("High Temperature")
+    if vib > 1:
+        reason.append("High Vibration")
+    if pres > 2:
+        reason.append("High Pressure")
+    if hours > 500:
+        reason.append("Over Usage")
+
+    reason = ", ".join(reason) if reason else "All parameters normal"
+
+    # Solution
+    if "Temperature" in reason:
+        solution = "Cool down machine"
+    elif "Vibration" in reason:
+        solution = "Check alignment"
+    elif "Pressure" in reason:
+        solution = "Inspect pressure system"
+    else:
+        solution = "No action needed"
+
+    return result, reason, alert, probability, solution
